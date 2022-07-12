@@ -1,6 +1,3 @@
-# Dexcord Nuker
-A basic python discord guild nuker.
-
 # How it works
 It works by basic python and discord.py, everything is open source and the code is posted below.
 
